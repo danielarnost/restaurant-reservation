@@ -43,8 +43,16 @@ app.get('/tables', function (req, res) {
 	res.sendFile(path.join(__dirname, 'tables.html'));
 });
 
+app.get('/api/reservation', function (req, res) {
+	res.json(reservation);
+});
+
+app.get('/api/waitinglist', function (req, res) {
+	res.json(waitingList);
+});
+
 app.post('/reserve', function (req, res){
-	if (currentReservations < 4){
+	if (currentReservations < 5){
 		var newReservation = req.body;
 
 		
@@ -61,7 +69,7 @@ app.post('/reserve', function (req, res){
 		
 		console.log(newwaitinglist);
 
-		waitinglist.push(newwaitinglist);
+		waitingList.push(newwaitinglist);
 
 		res.json(newwaitinglist);
 	}

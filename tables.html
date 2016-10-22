@@ -16,51 +16,73 @@
             <h1><span class="glyphicon glyphicon-fire" ></span> Hot Restaurant</h1>
             <hr>
             <h3>Current Reservations</h3>
-            <button type="button" class="btn btn-danger btn-lg" id = "resBtn"><span class="glyphicon glyphicon-list-alt"></span> Make Reservations</button>
+            <a href="/"<button type="button" class="btn btn-danger btn-lg" id="home"><span class="glyphicon glyphicon-home"></span></button></a>
+
+            <a href="/reserve"><button type="button" class="btn btn-danger btn-lg" id="resBtn"><span class="glyphicon glyphicon-list-alt"></span> Make Reservations</button></a>
           
-            
-                <button type="button" class="btn btn-danger btn-lg" id = "home"><span class="glyphicon glyphicon-home"></span></button>
+ 
+                
            
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <div class="panel panel-default" id = "currentRes">
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Current Reservations</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body" id="currentRes">
+                    	<div class="well">
+                    		<h2 id="name"></h2>
+                    	</div>
                     </div>
                 </div>
-                <div class="panel panel-default" id = "waitingList">
+                <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Waiting List</h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body" id="waitingList">
+                		<div class="well">
+                			<h2 id="nameW"></h2>
+                		</div>
                     </div>
                 </div>
             </div>
         </div>
         <h3>Control Panel</h3>
-        <span><a href = "#" >Clear Table </a> |<a href = "#"> API Table Link </a> |<a href = "#"> API Wait List</a></span>
+        <span><a href = "/api/reservation"> API Table Link </a> |<a href = "/api/waitinglist"> API Wait List</a></span>
     </div>
      <script type="text/javascript">
-		// Question: What does this code do?
-		$('#addBtn').on('click', function () {
-			var newCharacter = {
-				name: $('#name').val().trim(),
-				role: $('#role').val().trim(),
-				age: $('#age').val().trim(),
-				forcePoints: $('#forcepoints').val().trim()
-			};
 
-			// Question: What does this code do??
-			$.post('http://localhost:3000/api/new', newCharacter)
-				.done(function (data) {
-					console.log(data);
-					alert('Adding character...');
-				});
+		$.get('http://localhost:8080/api/reservation', function (data) {
+			console.log(data);
+			if (data) {
+				for (i=0; i < data.length; i++){
+					$('#currentRes').show();
+					$('#name').append("<h1>" + data[i].name + "</h1>");
+					// $('#phone').text(data.role);
+					// $('#email').text(data.age);
+					// $('#uniqueId').text(data.forcePoints);
+				}
+			} else {
+				$('#name').text('The force is not strong with this one. Your character was not found. ');
+				$('#stats').hide();
+			}
+		});
 
-			return false;
+		$.get('http://localhost:8080/api/waitinglist', function (data) {
+			console.log(data);
+			if (data) {
+				for (i=0; i < data.length; i++){
+					$('#currentRes').show();
+					$('#nameW').append("<h1>" + data[i].name + "</h1>");
+					// $('#phone').text(data.role);
+					// $('#email').text(data.age);
+					// $('#uniqueId').text(data.forcePoints);
+				}
+			} else {
+				$('#name').text('The force is not strong with this one. Your character was not found. ');
+				$('#stats').hide();
+			}
 		});
 	</script>
 </body>
